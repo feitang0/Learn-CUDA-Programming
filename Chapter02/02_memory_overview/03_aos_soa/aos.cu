@@ -1,8 +1,7 @@
-#include<stdio.h>
-#include<iostream>
-#include<stdlib.h>
-#include<string.h>
-
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define NUM_THREADS 256
 
@@ -17,46 +16,32 @@ struct Coefficients_AOS {
   int saturation;
   int maxVal;
   int minVal;
-  int finalVal; 
+  int finalVal;
 };
 
+__global__ void complicatedCalculation(Coefficients_AOS *data) {
+  int i = blockIdx.x * blockDim.x + threadIdx.x;
 
-__global__
-void complicatedCalculation(Coefficients_AOS*  data)
-{
-  int i = blockIdx.x*blockDim.x + threadIdx.x;
-
-
-  int grayscale = (data[i].r + data[i].g + data[i].b)/data[i].maxVal;
+  int grayscale = (data[i].r + data[i].g + data[i].b) / data[i].maxVal;
   int hue_sat = data[i].hue * data[i].saturation / data[i].minVal;
-  data[i].finalVal = grayscale*hue_sat; 
+  data[i].finalVal = grayscale * hue_sat;
 }
 
-void complicatedCalculation()
-{
+void complicatedCalculation() {
 
-  Coefficients_AOS* d_x;
+  Coefficients_AOS *d_x;
 
-  cudaMalloc(&d_x, IMG_SIZE*sizeof(Coefficients_AOS)); 
+  cudaMalloc(&d_x, IMG_SIZE * sizeof(Coefficients_AOS));
 
-  int num_blocks = IMG_SIZE/NUM_THREADS;
+  int num_blocks = IMG_SIZE / NUM_THREADS;
 
-  complicatedCalculation<<<num_blocks,NUM_THREADS>>>(d_x);
+  complicatedCalculation<<<num_blocks, NUM_THREADS>>>(d_x);
 
   cudaFree(d_x);
 }
 
+int main(int argc, char *argv[]) {
 
-
-int main(int argc, char*argv[])
-{
-
-	complicatedCalculation();
-	return 0;
+  complicatedCalculation();
+  return 0;
 }
-
-
-
-
-
-
