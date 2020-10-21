@@ -12,6 +12,7 @@
 *.o
 *.nvvp
 *.pyc
+*.nsight-cuprof-report
 .DS_Store
 __pycache__
 
