@@ -37,8 +37,8 @@ int main(int argc, char* argv[])
 
     // step 2. model initialization
     Network model;
-    model.add_layer(new Dense("dense1", 500));
-    model.add_layer(new Activation("relu", CUDNN_ACTIVATION_RELU));
+    // model.add_layer(new Dense("dense1", 500));
+    // model.add_layer(new Activation("relu", CUDNN_ACTIVATION_RELU));
     model.add_layer(new Dense("dense2", 10));
     model.add_layer(new Softmax("softmax"));
     model.cuda();
