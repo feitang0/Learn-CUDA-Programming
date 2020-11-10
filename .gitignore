@@ -15,5 +15,9 @@
 *.nsight-cuprof-report
 .DS_Store
 __pycache__
+**/*.out
+**/*.pgm
+**/*.qdrep
+samples/
 
 !Makefile
